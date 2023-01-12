@@ -6,7 +6,7 @@ class AboutController
 {
 
     public function index(){
-        return dirname(__DIR__) . '/Views/about.view.php';
+        require dirname(__DIR__) . '/Views/about.view.php';
     }
     public function edit(){
         echo "this is the edit";

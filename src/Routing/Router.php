@@ -49,7 +49,7 @@ class Router
     $this->routes[$method][$uri] = $action;
   }
 
-  public function view(array $array): callable 
+  private function callMethodInClass(array $array): callable 
   {
     return function() use ($array){
       $class = $array[0];
@@ -63,7 +63,7 @@ class Router
   {
     if(is_array($action))
     {
-      $fn = $this->view($action);
+      $fn = $this->callMethodInClass($action);
       $this->match("GET", $uri, $fn);
     }else
     $this->match("GET", $uri, $action);

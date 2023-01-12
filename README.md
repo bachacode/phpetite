@@ -1,0 +1,2 @@
+# phpetite
+The PHPetite framework

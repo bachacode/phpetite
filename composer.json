@@ -1,0 +1,24 @@
+{
+    "name": "phpetite/phpetite",
+    "description": "The PHPetite framework",
+    "type": "library",
+    "keywords": ["framework", "phpetite", "mvc"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cristhian Flores",
+            "email": "bachacode@gmail.com",
+            "homepage": "https://bachacode.github.io"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Petite\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=8.1.0"
+    },
+    "require-dev": {}
+}

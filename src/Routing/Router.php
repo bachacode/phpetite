@@ -10,7 +10,7 @@ use Petite\Http\HttpNotFoundException;
 
 class Router
 {
-  private array $routes;
+  public array $routes;
   private array $uri;
   private string $method;
   private string $path;
@@ -18,19 +18,23 @@ class Router
   public function __construct()
   {
     $this->uri = parse_url($_SERVER['REQUEST_URI']);
-    $this->setPath();
-    $this->setHttp();
+    $this->setPath($this->uri['path']);
+    $this->setHttpMethod($_SERVER['REQUEST_METHOD']);
   }
 
-  public function setPath(): void
+  public function setPath(string $uri): void
   {
-    $this->path = $this->uri['path'];
+    $this->path = $uri;
+  }
+  
+  public function setHttpMethod(string $method): void
+  {
+    $this->method = $method;
   }
 
   public function run() {
 
     $action = $this->routes[$this->method][$this->path];
-
     if (is_null($action)) {
         throw new HttpNotFoundException();
     }
@@ -40,19 +44,28 @@ class Router
     }
   }
 
-  public function setHttp(): void
-  {
-    $method = $_SERVER['REQUEST_METHOD'];
-    $this->method = $method;
-  }
-
   private function match(string $method, string $uri, mixed $action)
   {
     $this->routes[$method][$uri] = $action;
   }
 
-  public function get(string $uri, callable $action): void
+  public function view(array $array): callable 
   {
+    return function() use ($array){
+      $class = $array[0];
+      $method = $array[1];
+      $controller = new $class;
+      $controller->$method();
+    };
+  }
+
+  public function get(string $uri, callable|array $action): void
+  {
+    if(is_array($action))
+    {
+      $fn = $this->view($action);
+      $this->match("GET", $uri, $fn);
+    }else
     $this->match("GET", $uri, $action);
   }
 

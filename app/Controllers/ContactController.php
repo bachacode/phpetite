@@ -2,11 +2,9 @@
 
 namespace App\Controllers;
 
-
-
-class ContactController
+class ContactController extends Controller
 {
     public function index(){
-        require dirname(__DIR__) . '/Views/index.view.php';
+        return parent::view('contact');
     }
 }

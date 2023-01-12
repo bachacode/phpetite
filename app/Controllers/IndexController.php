@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-class IndexController
+class IndexController extends Controller
 {
     public function index(){
-        require dirname(__DIR__) . '/Views/index.view.php';
+        return parent::view('index');
     }
 }

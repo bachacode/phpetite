@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
-class AboutController
+class AboutController extends Controller
 {
 
     public function index(){
-        require dirname(__DIR__) . '/Views/about.view.php';
+        return parent::view('about');
     }
+
     public function edit(){
         echo "this is the edit";
     }

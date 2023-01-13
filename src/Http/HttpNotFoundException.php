@@ -14,15 +14,11 @@ class HttpNotFoundException extends Exception
         parent::__construct($message, $code, $previous);
     }
 
-    public function __toString() {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
-
-    public function check($action)
+    static public function check($action)
     {
         if(is_null($action))
         {
-            throw new HttpNotFoundException(self::__toString());
+            throw new HttpNotFoundException('Not Found', 404);
         }
         if ($action && is_callable($action))
         {

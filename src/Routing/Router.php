@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 namespace Petite\Routing;
 
 use Petite\Http\HttpNotFoundException;
@@ -8,10 +7,10 @@ use Petite\Http\HttpNotFoundException;
 class Router
 {
   private array $routes;
-  private array $uri;
-  private string $method;
-  private string $path;
-  private array $params;
+  readonly array $uri;
+  readonly string $method;
+  readonly string $path;
+  readonly array $params;
 
   public function __construct()
   {
@@ -42,24 +41,28 @@ class Router
     $this->method = $method;
   }
 
-  public function run()
+  public function resolve()
   {
-    $notFound = new HttpNotFoundException('Not Found', 404);
     try {
-      $action = $this->routes[$this->method][$this->path] ?? null;
-      $notFound->check($action);
+      $response = $this->routes[$this->method][$this->path] ?? null;
+      HttpNotFoundException::check($response);
     } catch (HttpNotFoundException $e) {
       http_response_code(404);
       echo $e->getMessage(), "\n";
     }
   }
 
-  private function match(string $method, string $uri, mixed $action)
+  private function createRoute(string $method, string $uri, \Closure|array $response)
   {
-    $this->routes[$method][$uri] = $action;
+    if(is_array($response))
+    {
+      $newResponse = $this->callMethodInClass($response);
+      $this->routes[$method][$uri] = $newResponse;
+    }else
+    $this->routes[$method][$uri] = $response;
   }
 
-  private function callMethodInClass(array $array): callable 
+  private function callMethodInClass(array $array): \Closure 
   {
     return function() use ($array){
       $class = $array[0];
@@ -69,34 +72,29 @@ class Router
     };
   }
 
-  public function get(string $uri, callable|array $action): void
+  public function get(string $uri, \Closure|array $response): void
   {
-    if(is_array($action))
-    {
-      $fn = $this->callMethodInClass($action);
-      $this->match("GET", $uri, $fn);
-    }else
-    $this->match("GET", $uri, $action);
+    $this->createRoute("GET", $uri, $response);
   }
 
-  public function post(string $uri, callable $action): void
+  public function post(string $uri, \Closure|array $response): void
   {
-    $this->match("POST", $uri, $action);
+    $this->createRoute("POST", $uri, $response);
   }
 
-  public function put(string $uri, callable $action): void
+  public function put(string $uri, \Closure|array $response): void
   {
-    $this->match("PUT", $uri, $action);
+    $this->createRoute("PUT", $uri, $response);
   }
 
-  public function patch(string $uri, callable $action): void
+  public function patch(string $uri, \Closure|array $response): void
   {
-    $this->match("PATCH", $uri, $action);
+    $this->createRoute("PATCH", $uri, $response);
   }
 
-  public function delete(string $uri, callable $action): void
+  public function delete(string $uri, \Closure|array $response): void
   {
-    $this->match("DELETE", $uri, $action);
+    $this->createRoute("DELETE", $uri, $response);
   }
 
 }

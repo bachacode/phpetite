@@ -18,3 +18,4 @@ $app->get('/test', function(){
     return 1;
 });
 
+$app->resolve();

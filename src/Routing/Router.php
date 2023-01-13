@@ -3,28 +3,38 @@
 declare(strict_types=1);
 namespace Petite\Routing;
 
-
-use Petite\Http\Request;
 use Petite\Http\HttpNotFoundException;
-
 
 class Router
 {
-  public array $routes;
+  private array $routes;
   private array $uri;
   private string $method;
   private string $path;
+  private array $params;
 
   public function __construct()
   {
     $this->uri = parse_url($_SERVER['REQUEST_URI']);
     $this->setPath($this->uri['path']);
+    if(isset($this->uri['query'])){
+      $this->setParams($this->uri['query']);
+    }
     $this->setHttpMethod($_SERVER['REQUEST_METHOD']);
   }
 
   public function setPath(string $uri): void
   {
+    if(strlen($uri) != 1){
+      $uri = rtrim($uri, "/");
+    }
     $this->path = $uri;
+  }
+
+  public function setParams(mixed $params)
+  {
+    $this->params = explode('&', $params);
+    print_r($this->params);
   }
   
   public function setHttpMethod(string $method): void
@@ -32,15 +42,15 @@ class Router
     $this->method = $method;
   }
 
-  public function run() {
-
-    $action = $this->routes[$this->method][$this->path];
-    if (is_null($action)) {
-        throw new HttpNotFoundException();
-    }
-
-    if ($action && is_callable($action)) {
-      $action();
+  public function run()
+  {
+    $notFound = new HttpNotFoundException('Not Found', 404);
+    try {
+      $action = $this->routes[$this->method][$this->path] ?? null;
+      $notFound->check($action);
+    } catch (HttpNotFoundException $e) {
+      http_response_code(404);
+      echo $e->getMessage(), "\n";
     }
   }
 

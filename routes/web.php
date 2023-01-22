@@ -9,13 +9,17 @@ use Petite\Testing;
 
 $app = new Router;
 
-$app->get('/', [IndexController::class, 'index']);
+$app->createMultipleRoutes(
+    [
+        IndexController::class,
+        AboutController::class,
+        ContactController::class,
+    ]
+);
 
-$app->get('/about', [AboutController::class, 'index']);
+$app
+    ->get('/test', function(){
+        echo 'hola';
+        return 1;
+    });
 
-$app->get('/test', function(){
-    echo 'hola';
-    return 1;
-});
-
-$app->resolve();

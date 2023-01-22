@@ -30,6 +30,11 @@ class Router
     $this->path = $uri;
   }
 
+  public function getRoutes(): array
+  {
+    return $this->routes;
+  }
+
   public function setParams(mixed $params)
   {
     $this->params = explode('&', $params);
@@ -52,7 +57,24 @@ class Router
     }
   }
 
-  private function createRoute(string $method, string $uri, \Closure|array $action)
+  public function createMultipleRoutes(array $controllers)
+  {
+    foreach($controllers as $controller)
+    {
+      $reflectionController = new \ReflectionClass($controller);
+      foreach($reflectionController->getMethods() as $method)
+      {
+        $attributes = $method->getAttributes(Route::class);
+        foreach ($attributes as $attribute)
+        {
+          $route = $attribute->newInstance();
+          $this->createRoute($route->method, $route->uri, [$controller, $method->getName()]);
+        }
+      }
+    }
+  }
+
+  private function createRoute(string $method = 'GET', string $uri, \Closure|array $action): self
   {
     if(is_array($action))
     {
@@ -60,6 +82,8 @@ class Router
       $this->routes[$method][$uri] = $fn;
     }else
     $this->routes[$method][$uri] = $action;
+
+    return $this;
   }
 
   private function callMethodInClass(array $array): \Closure 
@@ -72,29 +96,29 @@ class Router
     };
   }
 
-  public function get(string $uri, \Closure|array $action): void
+  public function get(string $uri, \Closure|array $action): self
   {
-    $this->createRoute("GET", $uri, $action);
+    return $this->createRoute("GET", $uri, $action);
   }
 
-  public function post(string $uri, \Closure|array $action): void
+  public function post(string $uri, \Closure|array $action): self
   {
-    $this->createRoute("POST", $uri, $action);
+    return $this->createRoute("POST", $uri, $action);
   }
 
-  public function put(string $uri, \Closure|array $action): void
+  public function put(string $uri, \Closure|array $action): self
   {
-    $this->createRoute("PUT", $uri, $action);
+    return $this->createRoute("PUT", $uri, $action);
   }
 
-  public function patch(string $uri, \Closure|array $action): void
+  public function patch(string $uri, \Closure|array $action): self
   {
-    $this->createRoute("PATCH", $uri, $action);
+    return $this->createRoute("PATCH", $uri, $action);
   }
 
-  public function delete(string $uri, \Closure|array $action): void
+  public function delete(string $uri, \Closure|array $action): self
   {
-    $this->createRoute("DELETE", $uri, $action);
+    return $this->createRoute("DELETE", $uri, $action);
   }
 
 }

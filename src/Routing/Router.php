@@ -51,11 +51,19 @@ class Router
     try {
       $action = $this->routes[$this->method][$this->path] ?? null;
       HttpNotFoundException::check($action);
+      if (is_array($action)) {
+        $this->callMethodInClass($action);
+      }
     } catch (HttpNotFoundException $e) {
       http_response_code(404);
       echo $e->getMessage(), "\n";
     }
   }
+
+  /**
+   * Accepts an array of controllers classes to create multiple routes based on the attribute Route above the methods of the controller
+   * @param array $controllers array of controller classes
+   */
 
   public function createMultipleRoutes(array $controllers)
   {
@@ -76,24 +84,17 @@ class Router
 
   private function createRoute(string $method = 'GET', string $uri, \Closure|array $action): self
   {
-    if(is_array($action))
-    {
-      $fn = $this->callMethodInClass($action);
-      $this->routes[$method][$uri] = $fn;
-    }else
     $this->routes[$method][$uri] = $action;
 
     return $this;
   }
 
-  private function callMethodInClass(array $array): \Closure 
+  private function callMethodInClass(array $array): void
   {
-    return function() use ($array){
-      $class = $array[0];
-      $method = $array[1];
-      $controller = new $class;
-      $controller->$method();
-    };
+    $class = $array[0];
+    $method = $array[1];
+    $controller = new $class;
+    $controller->$method();
   }
 
   public function get(string $uri, \Closure|array $action): self

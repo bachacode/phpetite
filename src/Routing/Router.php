@@ -94,7 +94,7 @@ class Router
     $class = $array[0];
     $method = $array[1];
     $controller = new $class;
-    $controller->$method();
+    echo $controller->$method();
   }
 
   public function get(string $uri, \Closure|array $action): self

@@ -8,7 +8,8 @@ class IndexController extends Controller
 {
 
     #[Route('/')]
-    public function index(){
-        return parent::view('index');
+    public function index()
+    {
+        return $this->view('index', ['foo' => 'bar']);
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Controllers;
 
-class Controller
+use Petite\Routing\Controller as BaseController;
+
+class Controller extends BaseController
 {
-    public static function view($view)
-    {
-        require dirname(__DIR__) . '/Views/'.$view.'.view.php';
-    }
+    //...
 }

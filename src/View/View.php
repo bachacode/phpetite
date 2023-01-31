@@ -8,29 +8,45 @@ class View
 {
     public function __construct(
         protected string $view,
-        protected array $data = []
+        protected array $params = [],
+        protected string $layout = "default",
+        protected string $contentSlot = "{{content}}"
     ){
     }
 
-    static public function make(string $view, array $data = [])
+    static public function make(string $view, array $params = [], string $layout = "default")
     {
-        return new static($view, $data);
+        return new static($view, $params, $layout);
     }
 
     public function render(): string
     {
-        ob_start();
-        $viewPath = VIEW_PATH . $this->view . '.view.php';
-        if (!file_exists($viewPath)){
-            throw new ViewNotFoundException();
-        }
+        $layoutContent = $this->getLayout();
+        $viewContent = $this->getView();
+        return str_replace($this->contentSlot, $viewContent, $layoutContent);
+    }
 
-        foreach ($this->data as $key => $value) {
+    protected function getView(): string {
+        return $this->getContentFile(VIEW_PATH . $this->view . ".view.php");
+    }
+
+    protected function getLayout(): string {
+        return $this->getContentFile(LAYOUT_PATH . $this->layout . ".view.php");
+    }
+
+    protected function getContentFile(string $filePath): string
+    {
+        foreach ($this->params as $key => $value) {
             $$key = $value;
         }
+        if (!file_exists($filePath)){
+            throw new ViewNotFoundException();
+        }
+        ob_start();
 
-        include VIEW_PATH.$this->view.'.view.php';
-        return ob_get_clean();
+        include_once $filePath;
+
+        return (string) ob_get_clean();
     }
     
     public function __toString()

@@ -3,31 +3,16 @@
 namespace Petite\Routing;
 
 use Petite\Http\HttpNotFoundException;
+use Petite\Http\Request;
 
 class Router
 {
   private array $routes;
-  readonly array $uri;
-  readonly string $method;
-  readonly string $path;
-  readonly array $params;
+  readonly Request $request;
 
   public function __construct()
   {
-    $this->uri = parse_url($_SERVER['REQUEST_URI']);
-    $this->setPath($this->uri['path']);
-    if(isset($this->uri['query'])){
-      $this->setParams($this->uri['query']);
-    }
-    $this->setHttpMethod($_SERVER['REQUEST_METHOD']);
-  }
-
-  public function setPath(string $uri): void
-  {
-    if(strlen($uri) != 1){
-      $uri = rtrim($uri, "/");
-    }
-    $this->path = $uri;
+    $this->request = new Request();
   }
 
   public function getRoutes(): array
@@ -35,21 +20,10 @@ class Router
     return $this->routes;
   }
 
-  public function setParams(mixed $params)
-  {
-    $this->params = explode('&', $params);
-    print_r($this->params);
-  }
-  
-  public function setHttpMethod(string $method): void
-  {
-    $this->method = $method;
-  }
-
   public function resolve()
   {
     try {
-      $action = $this->routes[$this->method][$this->path] ?? null;
+      $action = $this->routes[$this->request->method][$this->request->path] ?? null;
       HttpNotFoundException::check($action);
       if (is_array($action)) {
         $this->callMethodInClass($action);
@@ -85,7 +59,6 @@ class Router
   private function createRoute(string $method = 'GET', string $uri, \Closure|array $action): self
   {
     $this->routes[$method][$uri] = $action;
-
     return $this;
   }
 

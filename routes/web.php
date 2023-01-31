@@ -17,8 +17,7 @@ $app->createMultipleRoutes(
     ]
 );
 
-$app
-    ->get('/test', function(){
+$app->get('/test', function(){
         echo 'hola';
         return 1;
     });

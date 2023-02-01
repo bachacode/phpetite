@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Petite\Testing;
+use Petite\View\View;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 require dirname(__DIR__) . '/routes/web.php';
@@ -15,7 +16,7 @@ try {
     $app->resolve();
 } catch (\Petite\Http\HttpNotFoundException $e) {
     http_response_code(404);
-    echo $e->getMessage(), "\n";
+    echo View::make('errors/404', ['message' =>$e->getMessage(), 'code' => $e->getCode()]);
 }
 
 

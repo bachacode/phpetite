@@ -6,6 +6,6 @@ use Exception;
 
 class HttpNotFoundException extends Exception
 {
-    protected $message = "Not Found";
+    protected $message = "Page Not Found";
     protected $code = 404;
 }

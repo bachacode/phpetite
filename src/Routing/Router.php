@@ -8,12 +8,6 @@ use Petite\Http\Request;
 class Router
 {
     private array $routes;
-    readonly Request $request;
-
-    public function __construct()
-    {
-        $this->request = new Request();
-    }
 
     public function getRoutes(): array
     {
@@ -22,7 +16,8 @@ class Router
 
     public function resolve()
     {
-        $action = $this->routes[$this->request->method][$this->request->path] ?? null;
+        $request = new Request;
+        $action = $this->routes[$request->method][$request->path] ?? null;
         if(is_null($action))
         {
             throw new HttpNotFoundException('Not Found', 404);

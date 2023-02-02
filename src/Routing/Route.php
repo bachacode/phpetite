@@ -2,9 +2,7 @@
 
 namespace Petite\Routing;
 
-use Attribute;
-
-#[Attribute]
+#[\Attribute]
 class Route
 {
 

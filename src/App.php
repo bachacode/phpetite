@@ -10,6 +10,7 @@ use Petite\Database\DB;
 class App
 {
     static private DB $db;
+
     public function __construct(
         protected Router $router,
         protected Config $config

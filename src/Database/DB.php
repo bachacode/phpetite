@@ -4,8 +4,6 @@ namespace Petite\Database;
 
 use PDO;
 
-/** @mixin PDO */
-
 class DB
 {
     private PDO $pdo;

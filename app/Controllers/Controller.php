@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use Petite\Routing\Controller as BaseController;
 
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     //...
 }

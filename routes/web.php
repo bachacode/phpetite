@@ -5,7 +5,7 @@ use App\Controllers\IndexController;
 use Petite\Routing\Router;
 use App\Controllers\AboutController;
 use App\Controllers\ContactController;
-use Petite\Testing;
+use App\Controllers\UserController;
 
 $router = new Router;
 
@@ -14,6 +14,7 @@ $router->createMultipleRoutes(
         IndexController::class,
         AboutController::class,
         ContactController::class,
+        UserController::class
     ]
 );
 

@@ -7,9 +7,9 @@ use App\Controllers\AboutController;
 use App\Controllers\ContactController;
 use Petite\Testing;
 
-$app = new Router;
+$router = new Router;
 
-$app->createMultipleRoutes(
+$router->createMultipleRoutes(
     [
         IndexController::class,
         AboutController::class,
@@ -17,7 +17,7 @@ $app->createMultipleRoutes(
     ]
 );
 
-$app->get('/test', function(){
+$router->get('/test', function(){
         echo 'hola';
         return 1;
     });

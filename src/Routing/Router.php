@@ -7,7 +7,7 @@ use Petite\Http\Request;
 
 class Router
 {
-    private array $routes;
+    private array $routes = [];
 
     public function getRoutes(): array
     {
@@ -18,17 +18,18 @@ class Router
     {
         $request = new Request;
         $action = $this->routes[$request->method][$request->path] ?? null;
-        if(is_null($action))
+        if(!$action)
         {
             throw new HttpNotFoundException('Not Found', 404);
         }
-        if (is_array($action)) {
-            $this->callMethodInClass($action);
-        }
-        if ($action && is_callable($action))
+        if (is_callable($action))
         {
-            $action();
+            return call_user_func($action);
         }
+        if (is_array($action)) {
+            return $this->callMethodInClass($action);
+        }
+        
     }
 
     /**
@@ -59,12 +60,17 @@ class Router
         return $this;
     }
 
-    private function callMethodInClass(array $array): void
+    private function callMethodInClass(array $action)
     {
-        $class = $array[0];
-        $method = $array[1];
-        $controller = new $class;
-        echo $controller->$method();
+        [$class, $method] = $action;
+        if(class_exists($class))
+        {
+            $controller = new $class;
+            if(method_exists($class, $method))
+            {
+                return call_user_func_array([$controller, $method], []);
+            }
+        }
     }
 
     public function get(string $uri, \Closure|array $action): self

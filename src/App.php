@@ -27,7 +27,7 @@ class App
     public function run()
     {
         try {
-            $this->router->resolve();
+            echo $this->router->resolve();
         } catch (\Petite\Http\HttpNotFoundException $e) {
             http_response_code(404);
             echo View::make('errors/404', ['message' =>$e->getMessage(), 'code' => $e->getCode()]);

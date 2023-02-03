@@ -2,12 +2,18 @@
 
 namespace Petite\Routing;
 
+use Petite\Container\Container;
 use Petite\Http\HttpNotFoundException;
 use Petite\Http\Request;
 
 class Router
 {
     private array $routes = [];
+    
+    public function __construct(
+        private Container $container
+    ) {
+    }
 
     public function getRoutes(): array
     {
@@ -64,7 +70,7 @@ class Router
         [$class, $method] = $action;
         if(class_exists($class))
         {
-            $controller = new $class;
+            $controller = $this->container->get($class);
             if(method_exists($class, $method))
             {
                 return call_user_func_array([$controller, $method], []);

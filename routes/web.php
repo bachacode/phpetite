@@ -6,8 +6,10 @@ use Petite\Routing\Router;
 use App\Controllers\AboutController;
 use App\Controllers\ContactController;
 use App\Controllers\UserController;
+use Petite\Container\Container;
 
-$router = new Router;
+$container = new Container();
+$router = new Router($container);
 
 $router->createMultipleRoutes(
     [

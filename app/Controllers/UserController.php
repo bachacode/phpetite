@@ -4,18 +4,22 @@ namespace App\Controllers;
 
 use Petite\Routing\Route;
 use App\Models\User;
+use Petite\Container\Container;
 
 class UserController extends Controller
 {
+    public function __construct(private User $user)
+    {    
+    }
 
     #[Route('/users')]
     public function index()
     {
-        $user = new User();
         return $this->view('user', [
-            'users' => $user->getAll(),
+            'users' => $this->user->getAll(),
         ]);
     }
+
     #[Route('/users/store', 'POST')]
     public function store()
     {

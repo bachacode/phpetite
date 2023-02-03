@@ -9,6 +9,7 @@ use Petite\Http\Request;
 use Petite\Routing\Router;
 use PHPUnit\Framework\TestCase;
 use Petite\Routing\Route;
+use Petite\Container\Container;
 
 class RouterTest extends TestCase
 {
@@ -18,7 +19,7 @@ class RouterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->router = new Router();
+        $this->router = new Router((new Container()));
         $this->testClass = new Class()
         {
             #[Route('/test')]
@@ -151,7 +152,7 @@ class RouterTest extends TestCase
 
     public function testItHasNoRoutesAtCreation(): void
     {
-        $this->assertEmpty((new Router())->getRoutes());
+        $this->assertEmpty((new Router((new Container)))->getRoutes());
     }
 
     /**

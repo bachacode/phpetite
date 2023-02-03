@@ -14,11 +14,10 @@ class Router
         return $this->routes;
     }
 
-    public function resolve()
+    public function resolve(Request $request)
     {
-        $request = new Request;
         $action = $this->routes[$request->method][$request->path] ?? null;
-        if(!$action)
+        if($action == null)
         {
             throw new HttpNotFoundException('Not Found', 404);
         }
@@ -29,7 +28,7 @@ class Router
         if (is_array($action)) {
             return $this->callMethodInClass($action);
         }
-        
+        throw new HttpNotFoundException('Not Found', 404);
     }
 
     /**
@@ -41,16 +40,16 @@ class Router
     {
         foreach($controllers as $controller)
         {
-        $reflectionController = new \ReflectionClass($controller);
-        foreach($reflectionController->getMethods() as $method)
-        {
-            $attributes = $method->getAttributes(Route::class);
-            foreach ($attributes as $attribute)
+            $reflectionController = new \ReflectionClass($controller);
+            foreach($reflectionController->getMethods() as $method)
             {
-            $route = $attribute->newInstance();
-            $this->createRoute($route->method, $route->uri, [$controller, $method->getName()]);
+                $attributes = $method->getAttributes(Route::class);
+                foreach ($attributes as $attribute)
+                {
+                $route = $attribute->newInstance();
+                $this->createRoute($route->method, $route->uri, [$controller, $method->getName()]);
+                }
             }
-        }
         }
     }
 
@@ -97,5 +96,4 @@ class Router
     {
         return $this->createRoute("DELETE", $uri, $action);
     }
-
 }

@@ -11,14 +11,17 @@ class Request
     readonly string $path;
     readonly array $params;
 
-    public function __construct()
+    public function __construct(
+        string $uri,
+        string $method
+    )
     {
-        $this->uri = parse_url($_SERVER['REQUEST_URI']);
+        $this->uri = parse_url($uri);
+        $this->method = $method;
         $this->setPath($this->uri['path']);
         if(isset($this->uri['query'])){
         $this->setParams($this->uri['query']);
         }
-        $this->setHttpMethod($_SERVER['REQUEST_METHOD']);
     }
 
     public function setPath(string $uri): void
@@ -31,11 +34,5 @@ class Request
     public function setParams(mixed $params)
     {
         $this->params = explode('&', $params);
-        print_r($this->params);
-    }
-    
-    public function setHttpMethod(string $method): void
-    {
-        $this->method = $method;
     }
 }

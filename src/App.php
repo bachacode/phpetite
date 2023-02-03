@@ -6,6 +6,7 @@ use Petite\Config\Config;
 use Petite\Routing\Router;
 use Petite\View\View;
 use Petite\Database\DB;
+use Petite\Http\Request;
 
 class App
 {
@@ -27,7 +28,11 @@ class App
     public function run()
     {
         try {
-            echo $this->router->resolve();
+            $request = new Request(
+                uri: $_SERVER['REQUEST_URI'],
+                method: $_SERVER['REQUEST_METHOD']
+            );
+            echo $this->router->resolve($request);
         } catch (\Petite\Http\HttpNotFoundException $e) {
             http_response_code(404);
             echo View::make('errors/404', ['message' =>$e->getMessage(), 'code' => $e->getCode()]);

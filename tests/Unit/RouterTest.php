@@ -20,7 +20,7 @@ class RouterTest extends TestCase
     {
         parent::setUp();
         $this->router = new Router((new Container()));
-        $this->testClass = new Class()
+        $this->testClass = new Class ()
         {
             #[Route('/test')]
             public function index(): bool
@@ -152,7 +152,7 @@ class RouterTest extends TestCase
 
     public function testItHasNoRoutesAtCreation(): void
     {
-        $this->assertEmpty((new Router((new Container)))->getRoutes());
+        $this->assertEmpty((new Router((new Container())))->getRoutes());
     }
 
     /**
@@ -161,8 +161,7 @@ class RouterTest extends TestCase
     public function testItThrowsHttpNotFoundException(
         string $uri,
         string $method
-    ): void
-    {
+    ): void {
         $request = new Request(
             uri: $uri,
             method: $method
@@ -180,8 +179,7 @@ class RouterTest extends TestCase
     public function testItResolvesRouteWhenActionIsArray(
         string $uri,
         string $method
-    ): void
-    {
+    ): void {
         $request = new Request(
             uri: $uri,
             method: $method
@@ -201,8 +199,7 @@ class RouterTest extends TestCase
     public function testItResolvesRouteWhenActionIsCallable(
         string $uri,
         string $method
-    ): void
-    {
+    ): void {
         $request = new Request(
             uri: $uri,
             method: $method
@@ -216,7 +213,7 @@ class RouterTest extends TestCase
         $this->assertSame($resolved, true);
     }
 
-    public function httpNotFoundCases(): Array
+    public function httpNotFoundCases(): array
     {
         return [
             ['/users', 'PUT'],
@@ -225,7 +222,7 @@ class RouterTest extends TestCase
         ];
     }
 
-    public function resolveCases(): Array
+    public function resolveCases(): array
     {
         return [
             ['/test', 'GET'],

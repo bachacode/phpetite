@@ -9,7 +9,7 @@ use Petite\Container\Container;
 class UserController extends Controller
 {
     public function __construct(private User $user)
-    {    
+    {
     }
 
     #[Route('/users')]

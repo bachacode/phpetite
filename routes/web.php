@@ -20,9 +20,7 @@ $router->createMultipleRoutes(
     ]
 );
 
-$router->get('/test', function(){
+$router->get('/test', function () {
         echo 'hola';
         return 1;
-    });
-
-
+});

@@ -11,10 +11,10 @@ class View
         protected array $params = [],
         protected string $layout = "default",
         protected string $contentSlot = "{{content}}"
-    ){
+    ) {
     }
 
-    static public function make(string $view, array $params = [], string $layout = "default")
+    public static function make(string $view, array $params = [], string $layout = "default")
     {
         return new static($view, $params, $layout);
     }
@@ -26,11 +26,13 @@ class View
         return str_replace($this->contentSlot, $viewContent, $layoutContent);
     }
 
-    protected function getView(): string {
+    protected function getView(): string
+    {
         return $this->getContentFile(VIEW_PATH . $this->view . ".view.php");
     }
 
-    protected function getLayout(): string {
+    protected function getLayout(): string
+    {
         return $this->getContentFile(LAYOUT_PATH . $this->layout . ".view.php");
     }
 
@@ -39,7 +41,7 @@ class View
         foreach ($this->params as $key => $value) {
             $$key = $value;
         }
-        if (!file_exists($filePath)){
+        if (!file_exists($filePath)) {
             throw new ViewNotFoundException();
         }
         ob_start();
@@ -48,7 +50,7 @@ class View
 
         return (string) ob_get_clean();
     }
-    
+
     public function __toString()
     {
         return $this->render();

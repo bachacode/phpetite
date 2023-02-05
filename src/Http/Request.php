@@ -2,9 +2,7 @@
 
 namespace Petite\Http;
 
-use Psr\Http\Message\RequestInterface;
-
-class Request 
+class Request
 {
     readonly array $uri;
     readonly string $method;
@@ -14,20 +12,19 @@ class Request
     public function __construct(
         string $uri,
         string $method
-    )
-    {
+    ) {
         $this->uri = parse_url($uri);
         $this->method = $method;
         $this->setPath($this->uri['path']);
-        if(isset($this->uri['query'])){
-        $this->setParams($this->uri['query']);
+        if (isset($this->uri['query'])) {
+            $this->setParams($this->uri['query']);
         }
     }
 
     public function setPath(string $uri): void
     {
-        if(strlen($uri) != 1){
-        $uri = rtrim($uri, "/");
+        if (strlen($uri) != 1) {
+            $uri = rtrim($uri, "/");
         }
         $this->path = $uri;
     }

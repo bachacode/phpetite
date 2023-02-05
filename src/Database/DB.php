@@ -16,13 +16,13 @@ class DB
         ];
         try {
             $this->pdo = new PDO(
-                $config['connection'] . 
-                ':host=' . $config['host'] . 
+                $config['connection'] .
+                ':host=' . $config['host'] .
                 ';dbname=' . $config['name'],
-                $config['user'],  
+                $config['user'],
                 $config['pass'],
                 $config['options'] ?? $defaultOptions
-            );  
+            );
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), $e->getCode());
         }

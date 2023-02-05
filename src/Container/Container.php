@@ -14,7 +14,7 @@ class Container implements ContainerInterface
 
     public function get(string $id)
     {
-        if($this->has($id)) {
+        if ($this->has($id)) {
             $entry = $this->entries[$id];
             return $entry($this);
         }
@@ -25,31 +25,31 @@ class Container implements ContainerInterface
     {
         $reflectionClass = new ReflectionClass($id);
 
-        if(!$reflectionClass->isInstantiable()) {
+        if (!$reflectionClass->isInstantiable()) {
             throw new ContainerException('Class ' . $id . 'is not instantiable');
         }
 
         $constructor = $reflectionClass->getConstructor();
 
-        if(!$constructor) {
-            return new $id;
+        if (!$constructor) {
+            return new $id();
         }
 
         $parameters = $constructor->getParameters();
 
-        if(!$parameters) {
-            return new $id;
+        if (!$parameters) {
+            return new $id();
         }
 
-        $dependencies = array_map(function(ReflectionParameter $param) {
+        $dependencies = array_map(function (ReflectionParameter $param) {
             $name = $param->getName();
             $type = $param->getType();
 
-            if(!$type) {
+            if (!$type) {
                 throw new ContainerException($param . ' is not type hinted');
             }
 
-            if($type instanceof ReflectionUnionType) {
+            if ($type instanceof ReflectionUnionType) {
                 throw new ContainerException($param . ' is not named typed');
             }
 
@@ -61,7 +61,7 @@ class Container implements ContainerInterface
 
         return $reflectionClass->newInstanceArgs($dependencies);
     }
-    
+
     public function has(string $id): bool
     {
         return isset($this->entries[$id]);

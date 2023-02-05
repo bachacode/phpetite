@@ -9,7 +9,7 @@ use Petite\Http\Request;
 class Router
 {
     private array $routes = [];
-    
+
     public function __construct(
         private Container $container
     ) {
@@ -23,12 +23,10 @@ class Router
     public function resolve(Request $request)
     {
         $action = $this->routes[$request->method][$request->path] ?? null;
-        if($action == null)
-        {
+        if ($action == null) {
             throw new HttpNotFoundException('Not Found', 404);
         }
-        if (is_callable($action))
-        {
+        if (is_callable($action)) {
             return call_user_func($action);
         }
         if (is_array($action)) {
@@ -38,28 +36,26 @@ class Router
     }
 
     /**
-     * Accepts an array of controllers classes to create multiple routes based on the attribute Route above the methods of the controller
+     * Accepts an array of controllers classes to create multiple routes
+     * based on the attribute Route above the methods of the controller
      * @param array $controllers array of controller classes
      */
 
     public function createMultipleRoutes(array $controllers)
     {
-        foreach($controllers as $controller)
-        {
+        foreach ($controllers as $controller) {
             $reflectionController = new \ReflectionClass($controller);
-            foreach($reflectionController->getMethods() as $method)
-            {
+            foreach ($reflectionController->getMethods() as $method) {
                 $attributes = $method->getAttributes(Route::class);
-                foreach ($attributes as $attribute)
-                {
-                $route = $attribute->newInstance();
-                $this->createRoute($route->method, $route->uri, [$controller, $method->getName()]);
+                foreach ($attributes as $attribute) {
+                    $route = $attribute->newInstance();
+                    $this->createRoute($route->method, $route->uri, [$controller, $method->getName()]);
                 }
             }
         }
     }
 
-    private function createRoute(string $method = 'GET', string $uri, \Closure|array $action): self
+    private function createRoute(string $method, string $uri, \Closure|array $action): self
     {
         $this->routes[$method][$uri] = $action;
         return $this;
@@ -68,11 +64,9 @@ class Router
     private function callMethodInClass(array $action)
     {
         [$class, $method] = $action;
-        if(class_exists($class))
-        {
+        if (class_exists($class)) {
             $controller = $this->container->get($class);
-            if(method_exists($class, $method))
-            {
+            if (method_exists($class, $method)) {
                 return call_user_func_array([$controller, $method], []);
             }
         }

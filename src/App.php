@@ -3,6 +3,7 @@
 namespace Petite;
 
 use Petite\Config\Config;
+use Petite\Container\Container;
 use Petite\Routing\Router;
 use Petite\View\View;
 use Petite\Database\DB;
@@ -13,6 +14,7 @@ class App
     private static DB $db;
 
     public function __construct(
+        protected Container $container,
         protected Router $router,
         protected Config $config
     ) {
@@ -24,7 +26,7 @@ class App
         return static::$db;
     }
 
-    public function run()
+    public function run(): void
     {
         try {
             $request = new Request(

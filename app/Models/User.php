@@ -24,15 +24,14 @@ class User extends Model
 
     public function insert(): int
     {
-        
+
         $stmt = $this->db->prepare('
             INSERT INTO users (id, name, email, password, created_at, updated_at) 
-            VALUES (DEFAULT, :name, :email, :password, NOW(), NOW())'
-        );
+            VALUES (DEFAULT, :name, :email, :password, NOW(), NOW())');
         $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
         $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
         $stmt->bindValue(':password', $this->password, PDO::PARAM_STR);
-    
+
         $stmt->execute();
         return (int) $this->db->lastInsertId();
     }

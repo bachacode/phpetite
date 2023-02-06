@@ -27,4 +27,3 @@ class Config
         return $this->config[$name] ?? null;
     }
 }
-

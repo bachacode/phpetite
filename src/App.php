@@ -10,13 +10,12 @@ use Petite\Http\Request;
 
 class App
 {
-    static private DB $db;
+    private static DB $db;
 
     public function __construct(
         protected Router $router,
         protected Config $config
-    )
-    {
+    ) {
         static::$db = new DB($config->db ?? []);
     }
 
@@ -35,7 +34,7 @@ class App
             echo $this->router->resolve($request);
         } catch (\Petite\Http\HttpNotFoundException $e) {
             http_response_code(404);
-            echo View::make('errors/404', ['message' =>$e->getMessage(), 'code' => $e->getCode()]);
+            echo View::make('errors/404', ['message' => $e->getMessage(), 'code' => $e->getCode()]);
         }
     }
 }

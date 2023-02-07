@@ -8,15 +8,23 @@ class View
 {
     public function __construct(
         protected string $view,
-        protected array $params = [],
+        protected array $data = [],
         protected string $layout = "default",
-        protected string $contentSlot = "{{content}}"
+        protected string $contentSlot = "{{content}}",
+        protected string $viewPath = VIEW_PATH,
+        protected string $layoutPath = LAYOUT_PATH
     ) {
     }
 
-    public static function make(string $view, array $params = [], string $layout = "default")
-    {
-        return new static($view, $params, $layout);
+    public static function make(
+        string $view,
+        array $data = [],
+        string $layout = "default",
+        string $contentSlot = "{{content}}",
+        string $viewPath = VIEW_PATH,
+        string $layoutPath = LAYOUT_PATH
+    ) {
+        return new static($view, $data, $layout, $contentSlot, $viewPath, $layoutPath);
     }
 
     public function render(): string
@@ -28,27 +36,28 @@ class View
 
     protected function getView(): string
     {
-        return $this->getContentFile(VIEW_PATH . $this->view . ".view.php");
+        return $this->getContentFile($this->viewPath . $this->view . ".view.php");
     }
 
     protected function getLayout(): string
     {
-        return $this->getContentFile(LAYOUT_PATH . $this->layout . ".view.php");
+        return $this->getContentFile($this->layoutPath . $this->layout . ".view.php");
     }
 
     protected function getContentFile(string $filePath): string
     {
-        foreach ($this->params as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $$key = $value;
         }
         if (!file_exists($filePath)) {
             throw new ViewNotFoundException();
         }
+
         ob_start();
-
-        include_once $filePath;
-
-        return (string) ob_get_clean();
+        include $filePath;
+        $content = (string) ob_get_contents();
+        ob_end_clean();
+        return $content;
     }
 
     public function __toString()

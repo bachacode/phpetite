@@ -13,8 +13,8 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 $dotenv->required(['DB_CONNECTION','DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);
 
-define('VIEW_PATH', __DIR__ . '/../app/Views/');
-define('LAYOUT_PATH', __DIR__ . '/../app/Views/layouts/');
+define('VIEW_PATH', dirname(__DIR__) . '/app/Views/');
+define('LAYOUT_PATH', dirname(__DIR__) . '/app/Views/layouts/');
 
 (new App($container, $router, new Config($_ENV)))->run();
 

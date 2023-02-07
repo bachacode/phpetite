@@ -13,11 +13,11 @@ class Config
     {
         $this->config = [
             'db' => [
-                'connection' => $_ENV['DB_CONNECTION'] ?? 'mysql',
-                'host' => $_ENV['DB_HOST'],
-                'name' => $_ENV['DB_NAME'],
-                'user' => $_ENV['DB_USER'],
-                'pass' => $_ENV['DB_PASS']
+                'connection' => $env['DB_CONNECTION'] ?? 'mysql',
+                'host' => $env['DB_HOST'],
+                'name' => $env['DB_NAME'],
+                'user' => $env['DB_USER'],
+                'pass' => $env['DB_PASS']
             ]
         ];
     }

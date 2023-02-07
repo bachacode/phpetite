@@ -10,6 +10,7 @@ class View
         protected string $view,
         protected array $data = [],
         protected string $layout = "default",
+<<<<<<< HEAD
         protected string $contentSlot = "{{content}}",
         protected string $viewPath = VIEW_PATH,
         protected string $layoutPath = LAYOUT_PATH
@@ -25,6 +26,15 @@ class View
         string $layoutPath = LAYOUT_PATH
     ) {
         return new static($view, $data, $layout, $contentSlot, $viewPath, $layoutPath);
+=======
+        protected string $contentSlot = "{{content}}"
+    ) {
+    }
+
+    public static function make(string $view, array $params = [], string $layout = "default")
+    {
+        return new static($view, $params, $layout);
+>>>>>>> 678faf5737d7c42c2d25d4d805fa3435b136aad8
     }
 
     public function render(): string

@@ -45,8 +45,8 @@ class ViewTest extends TestCase
             view: 'testParams',
             data: $params,
             layout: 'testLayout',
-            viewPath: __DIR__ .'\\views\\',
-            layoutPath: __DIR__ . '\\views\\layouts\\'
+            viewPath: __DIR__ .'/views/',
+            layoutPath: __DIR__ . '/views/layouts/'
         );
         $expected = <<<viewWithParams
         <html>

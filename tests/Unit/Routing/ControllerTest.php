@@ -15,7 +15,7 @@ class ControllerTest extends TestCase
         $view = $controller->view(
             view: 'test',
             layout: 'testLayout',
-            viewPath: dirname(__DIR__) .'/View/views/',
+            viewPath: dirname(__DIR__) . '/View/views/',
             layoutPath: dirname(__DIR__) . '/View/views/layouts/'
         );
         $expected = <<<viewWithoutParams

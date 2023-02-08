@@ -13,8 +13,7 @@ class Controller
         string $contentSlot = "{{content}}",
         string $viewPath = VIEW_PATH,
         string $layoutPath = LAYOUT_PATH
-        ): string
-    {
+    ): string {
         return (string) View::make(
             $view,
             $params,

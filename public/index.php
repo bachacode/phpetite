@@ -17,9 +17,3 @@ define('VIEW_PATH', dirname(__DIR__) . '/app/Views/');
 define('LAYOUT_PATH', dirname(__DIR__) . '/app/Views/layouts/');
 
 (new App($container, $router, new Config($_ENV)))->run();
-
-
-
-
-
-

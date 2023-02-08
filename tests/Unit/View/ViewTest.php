@@ -15,10 +15,10 @@ class ViewTest extends TestCase
         $view = (string) View::make(
             view: 'test',
             layout: 'testLayout',
-            viewPath: __DIR__ .'/views/',
+            viewPath: __DIR__ . '/views/',
             layoutPath: __DIR__ . '/views/layouts/'
         );
-        echo  __DIR__ .'\\views\\' . PHP_EOL;
+        echo  __DIR__ . '\\views\\' . PHP_EOL;
         $expected = <<<viewWithoutParams
         <html>
         <head>
@@ -45,7 +45,7 @@ class ViewTest extends TestCase
             view: 'testParams',
             data: $params,
             layout: 'testLayout',
-            viewPath: __DIR__ .'/views/',
+            viewPath: __DIR__ . '/views/',
             layoutPath: __DIR__ . '/views/layouts/'
         );
         $expected = <<<viewWithParams
@@ -71,7 +71,7 @@ class ViewTest extends TestCase
         $view = (string) View::make(
             view: 'testFileNonExistant',
             layout: 'testLayout',
-            viewPath: __DIR__ .'\\views\\',
+            viewPath: __DIR__ . '\\views\\',
             layoutPath: __DIR__ . '\\views\\layouts\\'
         );
     }

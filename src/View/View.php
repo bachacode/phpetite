@@ -46,7 +46,6 @@ class View
 
     protected function getContentFile(string $filePath): string
     {
-        echo $filePath . PHP_EOL;
         foreach ($this->data as $key => $value) {
             $$key = $value;
         }

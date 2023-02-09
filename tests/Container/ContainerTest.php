@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Petite\Unit\Container;
+namespace Petite\Tests\Container;
 
 use Petite\Container\Container;
 use Petite\Container\ContainerException;
 use PHPUnit\Framework\TestCase;
-use Petite\Unit\Container\MockClasses\MockClass;
-use Petite\Unit\Container\MockClasses\MockClassTwo;
-use Petite\Unit\Container\MockClasses\MockClassThree;
-use Petite\Unit\Container\MockClasses\MockClassFour;
-use Petite\Unit\Container\MockClasses\MockClassFive;
-use Petite\Unit\Container\MockClasses\MockInterface;
+use Petite\Tests\Container\MockClasses\MockClass;
+use Petite\Tests\Container\MockClasses\MockClassTwo;
+use Petite\Tests\Container\MockClasses\MockClassThree;
+use Petite\Tests\Container\MockClasses\MockClassFour;
+use Petite\Tests\Container\MockClasses\MockClassFive;
+use Petite\Tests\Container\MockClasses\MockInterface;
 
 class ContainerTest extends TestCase
 {

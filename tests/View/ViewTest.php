@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Unit;
+namespace Petite\Tests\View;
 
 use Petite\View\View;
 use Petite\View\ViewNotFoundException;

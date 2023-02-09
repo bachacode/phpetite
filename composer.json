@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Petite\\Unit\\": "tests/Unit/"
+            "Petite\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -39,7 +39,6 @@
         "phpcs": [
             "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
             "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=tools/php-cs-fixer/.php-cs-fixer.php"
-            ]
-            
+        ]    
     }
 }

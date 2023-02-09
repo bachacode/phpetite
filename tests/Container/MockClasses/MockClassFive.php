@@ -1,6 +1,6 @@
 <?php
 
-namespace Petite\Unit\Container\MockClasses;
+namespace Petite\Tests\Container\MockClasses;
 
 class MockClassFive
 {

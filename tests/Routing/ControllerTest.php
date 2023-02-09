@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Unit;
+namespace Petite\Tests\Routing;
 
 use Petite\Routing\Controller;
 use PHPUnit\Framework\TestCase;

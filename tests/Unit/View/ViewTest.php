@@ -18,7 +18,6 @@ class ViewTest extends TestCase
             viewPath: __DIR__ . '/views/',
             layoutPath: __DIR__ . '/views/layouts/'
         );
-        echo  __DIR__ . '\\views\\' . PHP_EOL;
         $expected = <<<viewWithoutParams
         <html>
         <head>

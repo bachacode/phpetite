@@ -35,6 +35,18 @@ class Router
         throw new HttpNotFoundException('Not Found', 404);
     }
 
+    public function autowireRoutes(string $namespace, string $dir): void
+    {
+        $files = array_diff(scandir($dir), ['..', '.', 'Controller.php']);
+        $classes = array_map(function ($file) use ($namespace) {
+            return $namespace . '\\' . str_replace('.php', '', $file);
+        }, $files);
+        $controllers = array_filter($classes, function ($possibleClass) {
+            return class_exists($possibleClass);
+        });
+        $this->createMultipleRoutes($controllers);
+    }
+
     /**
      * Accepts an array of controllers classes to create multiple routes
      * based on the attribute Route above the methods of the controller

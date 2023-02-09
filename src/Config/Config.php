@@ -22,7 +22,7 @@ class Config
         ];
     }
 
-    public function __get(string $name): string
+    public function __get(string $name): array
     {
         return $this->config[$name] ?? null;
     }

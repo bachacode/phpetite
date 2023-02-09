@@ -20,7 +20,7 @@ class Router
         return $this->routes;
     }
 
-    public function resolve(Request $request)
+    public function resolve(Request $request): mixed
     {
         $action = $this->routes[$request->method][$request->path] ?? null;
         if ($action == null) {
@@ -38,10 +38,10 @@ class Router
     /**
      * Accepts an array of controllers classes to create multiple routes
      * based on the attribute Route above the methods of the controller
-     * @param array $controllers array of controller classes
+     * @param array<int, string> $controllers array of controller classes
      */
 
-    public function createMultipleRoutes(array $controllers)
+    public function createMultipleRoutes(array $controllers): void
     {
         foreach ($controllers as $controller) {
             $reflectionController = new \ReflectionClass($controller);
@@ -61,7 +61,7 @@ class Router
         return $this;
     }
 
-    private function callMethodInClass(array $action)
+    private function callMethodInClass(array $action): mixed
     {
         [$class, $method] = $action;
         if (class_exists($class)) {
@@ -70,6 +70,7 @@ class Router
                 return call_user_func_array([$controller, $method], []);
             }
         }
+        return 0;
     }
 
     public function get(string $uri, \Closure|array $action): self

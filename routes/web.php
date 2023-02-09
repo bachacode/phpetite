@@ -19,8 +19,3 @@ $router->createMultipleRoutes(
         UserController::class
     ]
 );
-
-$router->get('/test', function () {
-        echo 'hola';
-        return 1;
-});

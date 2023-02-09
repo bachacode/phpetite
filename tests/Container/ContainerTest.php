@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Petite\Unit\Container;
+namespace Petite\Tests\Container;
 
 use Petite\Container\Container;
 use Petite\Container\ContainerException;
 use PHPUnit\Framework\TestCase;
-use Petite\Unit\Container\MockClasses\MockClass;
-use Petite\Unit\Container\MockClasses\MockClassTwo;
-use Petite\Unit\Container\MockClasses\MockClassThree;
-use Petite\Unit\Container\MockClasses\MockClassFour;
-use Petite\Unit\Container\MockClasses\MockClassFive;
-use Petite\Unit\Container\MockClasses\MockInterface;
+use Petite\Tests\Container\MockClasses\MockClass;
+use Petite\Tests\Container\MockClasses\MockClassTwo;
+use Petite\Tests\Container\MockClasses\MockClassThree;
+use Petite\Tests\Container\MockClasses\MockClassFour;
+use Petite\Tests\Container\MockClasses\MockClassFive;
+use Petite\Tests\Container\MockClasses\MockInterface;
 
 class ContainerTest extends TestCase
 {
     public function testItReturnsFalseIfEntryExists(): void
     {
         $container = new Container();
-        $result = $container->has(nonExistant::class);
+        $result = $container->has(MockClass::class);
         $expected = false;
         $this->assertSame($expected, $result);
     }
@@ -29,7 +29,7 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->set(
             MockClass::class,
-            fn() => new MockClass()
+            fn () => new MockClass()
         );
         $result = $container->has(MockClass::class);
         $expected = true;

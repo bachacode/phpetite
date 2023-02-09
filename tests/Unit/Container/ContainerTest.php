@@ -29,7 +29,7 @@ class ContainerTest extends TestCase
         $container = new Container();
         $container->set(
             MockClass::class,
-            fn() => new MockClass()
+            fn () => new MockClass()
         );
         $result = $container->has(MockClass::class);
         $expected = true;

@@ -20,8 +20,7 @@ class RouterTest extends TestCase
     {
         parent::setUp();
         $this->router = new Router((new Container()));
-        $this->testClass = new Class ()
-        {
+        $this->testClass = new class () {
             #[Route('/test')]
             public function index(): bool
             {
@@ -205,10 +204,10 @@ class RouterTest extends TestCase
             method: $method
         );
 
-        $this->router->get('/test', fn() => true);
-        $this->router->post('/test/store', fn() => true);
-        $this->router->patch('/test/param', fn() => true);
-        $this->router->delete('/test/param', fn() => true);
+        $this->router->get('/test', fn () => true);
+        $this->router->post('/test/store', fn () => true);
+        $this->router->patch('/test/param', fn () => true);
+        $this->router->delete('/test/param', fn () => true);
         $resolved = $this->router->resolve($request);
         $this->assertSame($resolved, true);
     }

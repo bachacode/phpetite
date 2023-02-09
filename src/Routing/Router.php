@@ -37,11 +37,11 @@ class Router
 
     public function autowireRoutes(string $namespace, string $dir): void
     {
-        $files = array_diff(scandir($dir), array('..', '.', 'Controller.php'));
-        $classes = array_map(function($file) use ($namespace){
+        $files = array_diff(scandir($dir), ['..', '.', 'Controller.php']);
+        $classes = array_map(function ($file) use ($namespace) {
             return $namespace . '\\' . str_replace('.php', '', $file);
         }, $files);
-        $controllers = array_filter($classes, function($possibleClass){
+        $controllers = array_filter($classes, function ($possibleClass) {
             return class_exists($possibleClass);
         });
         $this->createMultipleRoutes($controllers);

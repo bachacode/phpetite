@@ -19,7 +19,7 @@ class ContainerTest extends TestCase
     public function testItReturnsFalseIfEntryExists(): void
     {
         $container = new Container();
-        $result = $container->has(nonExistant::class);
+        $result = $container->has(MockClass::class);
         $expected = false;
         $this->assertSame($expected, $result);
     }

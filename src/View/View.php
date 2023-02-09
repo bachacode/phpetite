@@ -4,7 +4,7 @@ namespace Petite\View;
 
 use Petite\View\ViewNotFoundException;
 
-class View
+final class View
 {
     public function __construct(
         protected string $view,
@@ -65,7 +65,7 @@ class View
         return $this->render();
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->data[$name] ?? null;
     }

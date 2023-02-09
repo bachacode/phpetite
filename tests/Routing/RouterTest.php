@@ -212,6 +212,9 @@ class RouterTest extends TestCase
         $this->assertSame($resolved, true);
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function httpNotFoundCases(): array
     {
         return [
@@ -221,6 +224,9 @@ class RouterTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function resolveCases(): array
     {
         return [

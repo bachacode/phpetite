@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Unit;
+namespace Petite\Tests\View;
 
 use Petite\View\View;
 use Petite\View\ViewNotFoundException;
@@ -18,7 +18,6 @@ class ViewTest extends TestCase
             viewPath: __DIR__ . '/views/',
             layoutPath: __DIR__ . '/views/layouts/'
         );
-        echo  __DIR__ . '\\views\\' . PHP_EOL;
         $expected = <<<viewWithoutParams
         <html>
         <head>

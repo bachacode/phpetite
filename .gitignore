@@ -1,4 +1,7 @@
+composer.lock
+phpunit.xml
 /vendor
+/tools
 .env
 .phpunit.result.cache
-/tools
+.php-cs-fixer.cache

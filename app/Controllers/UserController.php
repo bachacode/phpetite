@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use Petite\Routing\Route;
 use App\Models\User;
-use Petite\Container\Container;
 
 class UserController extends Controller
 {

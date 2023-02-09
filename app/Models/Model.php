@@ -2,19 +2,9 @@
 
 namespace App\Models;
 
-use Petite\App;
-use Petite\Database\DB;
+use Petite\Database\Model as PetiteModel;
 
-abstract class Model
+abstract class Model extends PetiteModel
 {
-    /**
-     * @var \PDO $db
-     */
-
-    protected DB $db;
-
-    public function __construct()
-    {
-        $this->db = App::db();
-    }
+    //...
 }

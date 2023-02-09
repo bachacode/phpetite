@@ -4,10 +4,10 @@ namespace Petite\Http;
 
 class Request
 {
-    readonly array $uri;
-    readonly string $method;
-    readonly string $path;
-    readonly array $params;
+    public array $uri;
+    public string $method;
+    public string $path;
+    public array $params;
 
     public function __construct(
         string $uri,

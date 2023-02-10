@@ -3,6 +3,7 @@
 namespace Petite\Routing;
 
 use Petite\Container\Container;
+use Petite\Http\HttpMethod;
 use Petite\Http\HttpNotFoundException;
 use Petite\Http\Request;
 
@@ -67,9 +68,9 @@ class Router
         }
     }
 
-    private function createRoute(string $method, string $uri, \Closure|array $action): self
+    private function createRoute(HttpMethod $method, string $uri, \Closure|array $action): self
     {
-        $this->routes[$method][$uri] = $action;
+        $this->routes[$method->value()][$uri] = $action;
         return $this;
     }
 
@@ -87,26 +88,26 @@ class Router
 
     public function get(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute("GET", $uri, $action);
+        return $this->createRoute(HttpMethod::GET, $uri, $action);
     }
 
     public function post(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute("POST", $uri, $action);
+        return $this->createRoute(HttpMethod::POST, $uri, $action);
     }
 
     public function put(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute("PUT", $uri, $action);
+        return $this->createRoute(HttpMethod::PUT, $uri, $action);
     }
 
     public function patch(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute("PATCH", $uri, $action);
+        return $this->createRoute(HttpMethod::PATCH, $uri, $action);
     }
 
     public function delete(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute("DELETE", $uri, $action);
+        return $this->createRoute(HttpMethod::DELETE, $uri, $action);
     }
 }

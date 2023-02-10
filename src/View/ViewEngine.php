@@ -23,7 +23,6 @@ class ViewEngine
     protected function getContentFile(string $filePath, array $data = []): string
     {
         foreach ($data as $key => $value) {
-            echo 'hola';
             $$key = $value;
         }
  

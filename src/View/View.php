@@ -7,7 +7,7 @@ class View extends ViewEngine
     private function __construct(
         protected string $view,
         protected array $data = [],
-        protected string $layout = '',
+        protected ?string $layout = '',
     )
     {
         
@@ -16,15 +16,16 @@ class View extends ViewEngine
     public static function make(
         string $view,
         array $data = [],
-        string $layout = "default",
+        ?string $layout,
     ) {
         return new static($view, $data, $layout);
     }
 
     public function render(): string
     {
-        $layoutContent = $this->getLayout($this->layout);
         $viewContent = $this->getView($this->view, $this->data);
+        if(!$this->layout) return $viewContent;
+        $layoutContent = $this->getLayout($this->layout);
         return str_replace($this->contentSlot, $viewContent, $layoutContent);
     }
     

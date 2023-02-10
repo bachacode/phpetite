@@ -12,13 +12,12 @@ enum HttpMethod
 
     public function value(): string
     {
-        return match($this) 
-        {
-            HttpMethod::GET => 'GET',   
-            HttpMethod::POST => 'POST',   
+        return match ($this) {
+            HttpMethod::GET => 'GET',
+            HttpMethod::POST => 'POST',
             HttpMethod::PUT => 'PUT',
             HttpMethod::PATCH => 'PATCH',
-            HttpMethod::DELETE => 'DELETE'   
+            HttpMethod::DELETE => 'DELETE'
         };
     }
 }

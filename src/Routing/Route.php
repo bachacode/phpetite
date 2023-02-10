@@ -13,8 +13,7 @@ class Route
         public string $uri,
         string $method = 'GET'
     ) {
-
-        $this->method = match(strtoupper($method)) {
+        $this->method = match (strtoupper($method)) {
             'GET' => HttpMethod::GET,
             'POST' => HttpMethod::POST,
             'PUT' => HttpMethod::PUT,
@@ -22,5 +21,4 @@ class Route
             'DELETE' => HttpMethod::DELETE,
         };
     }
-
 }

@@ -88,26 +88,26 @@ class Router
 
     public function get(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute(HttpMethod::GET->value, $uri, $action);
+        return $this->createRoute(HttpMethod::GET, $uri, $action);
     }
 
     public function post(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute(HttpMethod::POST->value, $uri, $action);
+        return $this->createRoute(HttpMethod::POST, $uri, $action);
     }
 
     public function put(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute(HttpMethod::PUT->value, $uri, $action);
+        return $this->createRoute(HttpMethod::PUT, $uri, $action);
     }
 
     public function patch(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute(HttpMethod::PATCH->value, $uri, $action);
+        return $this->createRoute(HttpMethod::PATCH, $uri, $action);
     }
 
     public function delete(string $uri, \Closure|array $action): self
     {
-        return $this->createRoute(HttpMethod::DELETE->value, $uri, $action);
+        return $this->createRoute(HttpMethod::DELETE, $uri, $action);
     }
 }

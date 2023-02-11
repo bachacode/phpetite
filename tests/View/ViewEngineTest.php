@@ -5,19 +5,28 @@ declare(strict_types=1);
 namespace Petite\Tests\View;
 
 use Petite\View\View;
+use Petite\View\ViewEngine;
 use Petite\View\ViewNotFoundException;
 use PHPUnit\Framework\TestCase;
 
-class ViewTest extends TestCase
+class ViewEngineTest extends TestCase
 {
-    public function testItRendersViewWithoutParams(): void
+    private ViewEngine $viewEngine;
+
+    protected function setUp(): void
     {
-        $view = (string) View::make(
-            view: 'test',
-            layout: 'testLayout',
+        $this->viewEngine = new ViewEngine(
             viewPath: __DIR__ . '/views/',
             layoutPath: __DIR__ . '/views/layouts/'
         );
+    }
+    public function testItRendersViewWithoutParams(): void
+    {
+        $view = new View(
+            file: 'test',
+            layout: 'testLayout',
+        );
+        $content = $this->viewEngine->render($view);
         $expected = <<<viewWithoutParams
         <html>
         <head>
@@ -30,7 +39,7 @@ class ViewTest extends TestCase
         viewWithoutParams;
         $this->assertEquals(
             preg_replace("/\s*/", "", $expected),
-            preg_replace("/\s*/", "", $view),
+            preg_replace("/\s*/", "", $content),
         );
     }
 
@@ -40,13 +49,12 @@ class ViewTest extends TestCase
             'first' => 'Hello',
             'second' => 'World'
         ];
-        $view = (string) View::make(
-            view: 'testParams',
+        $view = new View(
+            file: 'testParams',
             data: $params,
             layout: 'testLayout',
-            viewPath: __DIR__ . '/views/',
-            layoutPath: __DIR__ . '/views/layouts/'
         );
+        $content = $this->viewEngine->render($view);
         $expected = <<<viewWithParams
         <html>
         <head>
@@ -60,18 +68,17 @@ class ViewTest extends TestCase
         viewWithParams;
         $this->assertEquals(
             preg_replace("/\s*/", "", $expected),
-            preg_replace("/\s*/", "", $view),
+            preg_replace("/\s*/", "", $content),
         );
     }
 
     public function testItThrowsViewNotFoundException(): void
     {
         $this->expectException(ViewNotFoundException::class);
-        $view = (string) View::make(
-            view: 'testFileNonExistant',
+        $view = new View(
+            file: 'testFileNonExistant',
             layout: 'testLayout',
-            viewPath: __DIR__ . '\\views\\',
-            layoutPath: __DIR__ . '\\views\\layouts\\'
         );
+        $content = $this->viewEngine->render($view);
     }
 }

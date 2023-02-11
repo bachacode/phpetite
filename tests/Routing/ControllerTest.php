@@ -11,12 +11,13 @@ class ControllerTest extends TestCase
 {
     public function testItRendersViewFromController(): void
     {
-        $controller = new Controller();
+        $controller = new Controller(
+            __DIR__ . '/../View/views/',
+            __DIR__ . '/../View/views/layouts/'
+        );
         $view = $controller->view(
-            view: 'test',
+            file: 'test',
             layout: 'testLayout',
-            viewPath: dirname(__DIR__) . '/View/views/',
-            layoutPath: dirname(__DIR__) . '/View/views/layouts/'
         );
         $expected = <<<viewWithoutParams
         <html>

@@ -2,36 +2,13 @@
 
 namespace Petite\View;
 
-class View extends ViewEngine
+class View
 {
-    private function __construct(
-        protected string $view,
-        protected array $data = [],
-        protected ?string $layout = '',
-    )
-    {
-        
-    }
-
-    public static function make(
-        string $view,
-        array $data = [],
-        ?string $layout,
+    public function __construct(
+        public string $file,
+        public array $data = [],
+        public ?string $layout = 'default',
     ) {
-        return new static($view, $data, $layout);
-    }
-
-    public function render(): string
-    {
-        $viewContent = $this->getView($this->view, $this->data);
-        if(!$this->layout) return $viewContent;
-        $layoutContent = $this->getLayout($this->layout);
-        return str_replace($this->contentSlot, $viewContent, $layoutContent);
-    }
-    
-    public function __toString()
-    {
-        return $this->render();
     }
 
     public function __get(string $name): mixed

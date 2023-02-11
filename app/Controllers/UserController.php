@@ -9,6 +9,7 @@ class UserController extends Controller
 {
     public function __construct(private User $user)
     {
+        parent::__construct();
     }
 
     #[Route('/users')]

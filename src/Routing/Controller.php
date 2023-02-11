@@ -3,24 +3,24 @@
 namespace Petite\Routing;
 
 use Petite\View\View;
+use Petite\View\ViewEngine;
 
 class Controller
 {
-    public function view(
-        string $view,
-        array $params = [],
-        string $layout = "default",
-        string $contentSlot = "{{content}}",
-        string $viewPath = VIEW_PATH,
-        string $layoutPath = LAYOUT_PATH
-    ): string {
-        return (string) View::make(
-            $view,
-            $params,
-            $layout,
-            $contentSlot,
-            $viewPath,
-            $layoutPath
-        );
+    public ViewEngine $viewEngine;
+
+    public function __construct(?string $viewPath, ?string $layoutPath)
+    {
+        if (!$viewPath || !$layoutPath) {
+            $this->viewEngine = new ViewEngine();
+        } else {
+            $this->viewEngine = new ViewEngine($viewPath, $layoutPath);
+        }
+    }
+
+    public function view(string $file, array $params = [], ?string $layout = "default"): string
+    {
+        $view = new View($file, $params, $layout);
+        return $this->viewEngine->render($view);
     }
 }
